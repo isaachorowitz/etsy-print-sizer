@@ -10,6 +10,7 @@ import { StreamingZip, formatFilename, createDirectoryPath } from '@/lib/zip'
 
 // Disable Next.js body parsing for this route
 export const runtime = 'nodejs'
+export const maxDuration = 300
 
 export async function POST(request: NextRequest) {
   let tempFilePath: string | null = null
