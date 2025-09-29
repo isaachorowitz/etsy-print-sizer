@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['sharp', 'smartcrop-sharp'],
-  },
+  serverExternalPackages: ['sharp', 'smartcrop-sharp'],
   images: {
     domains: ['replicate.delivery'],
   },
