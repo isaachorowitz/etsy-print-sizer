@@ -43,20 +43,23 @@ export async function POST(request: NextRequest) {
     // Get original filename for basename
     const basename = file.name.replace(/\.[^/.]+$/, '')
 
-    console.log(`Processing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`)
+    console.log(`🎯 Processing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`)
 
     // Step 1: Load and process the original image
+    console.log('📋 Step 1: Validating and loading image...')
     const processedImage = await loadAndProcessImage(buffer)
     const originalDimensions = await getImageDimensions(buffer)
-    console.log(`Original dimensions: ${originalDimensions.width}x${originalDimensions.height}`)
+    console.log(`✅ Original dimensions: ${originalDimensions.width}x${originalDimensions.height}px`)
 
     // Step 2: Determine largest master size needed
+    console.log('📐 Step 2: Analyzing dimensions and planning upscaling...')
     const largestMaster = getLargestMasterArea()
-    console.log(`Target largest master: ${largestMaster.width}x${largestMaster.height}`)
+    console.log(`🎯 Target largest master: ${largestMaster.width}x${largestMaster.height}px (24×36 inches at 300 DPI)`)
 
-    // Step 3: Upscale to largest master size
+    // Step 3: Upscale to largest master size using Sharp
+    console.log('⚡ Step 3: Upscaling with Sharp Lanczos3 algorithm...')
     const upscaledResult = await upscaleToLargestMaster(buffer, largestMaster)
-    console.log(`Upscaled to: ${upscaledResult.width}x${upscaledResult.height}`)
+    console.log(`✅ Upscaled to: ${upscaledResult.width}x${upscaledResult.height}px using Sharp Lanczos3`)
 
     // Step 4: Determine aspect ratios to process
     const aspectRatios: AspectRatio[] = ['2x3', '3x4', '4x5', '11x14', 'ISO']
@@ -78,14 +81,17 @@ export async function POST(request: NextRequest) {
       targetDimensions[ratio] = getMasterDimensions(ratio)
     })
 
-    // Step 6: Crop for all aspect ratios from upscaled image
+    // Step 4: Crop for all aspect ratios from upscaled image
+    console.log('✂️ Step 4: Creating smart crops for all aspect ratios...')
     const cropResults = await cropForAllAspects(
       upscaledResult.buffer,
       aspectRatios,
       targetDimensions
     )
+    console.log(`✅ Created ${aspectRatios.length} smart crops for aspect ratios: ${aspectRatios.join(', ')}`)
 
-    // Step 7: Create ZIP stream
+    // Step 5: Create ZIP stream
+    console.log('📦 Step 5: Creating ZIP package with organized structure...')
     const zip = new StreamingZip()
     const zipStream = zip.getStream()
 
@@ -112,7 +118,8 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // Step 8: Add all cropped images to ZIP
+    // Step 6: Add all cropped images to ZIP
+    console.log('🖼️ Step 6: Generating all print sizes and adding to ZIP...')
     const addImagesToZip = async () => {
       for (const aspectRatio of aspectRatios) {
         const cropResult = cropResults[aspectRatio]
@@ -163,6 +170,8 @@ export async function POST(request: NextRequest) {
       await zip.addBuffer(Buffer.from(manifestContent, 'utf-8'), 'manifest.txt')
 
       // Finalize ZIP
+      console.log('✅ All images processed and added to ZIP')
+      console.log('🎁 Finalizing ZIP package for download...')
       zip.finalize()
     }
 
@@ -234,14 +243,13 @@ function generateManifest(
   lines.push('')
   lines.push('Processing details:')
   lines.push('- Images converted to sRGB color space')
-  lines.push('- JPEG quality: 95%')
-  lines.push('- Chroma subsampling: 4:4:4')
+  lines.push('- EXIF orientation automatically corrected')
+  lines.push('- Alpha channels flattened to white background')
+  lines.push('- Sharp Lanczos3 upscaling algorithm (high quality, reliable)')
+  lines.push('- JPEG quality: 95% with 4:4:4 chroma subsampling')
   lines.push('- Smart cropping with face/salient region detection')
-  if (process.env.REPLICATE_API_TOKEN) {
-    lines.push('- AI upscaling with Real-ESRGAN')
-  } else {
-    lines.push('- Sharp Lanczos upscaling')
-  }
+  lines.push('- 300 DPI metadata applied to all images')
+  lines.push('- sRGB color profile embedded for consistent colors')
 
   lines.push('')
   lines.push('Notes:')

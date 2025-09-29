@@ -62,6 +62,9 @@ export function OptionsPanel({ options, onChange, disabled }: OptionsPanelProps)
         <p className="text-xs text-blue-800">
           <strong>Always included:</strong> Master sizes for 2:3, 3:4, 4:5, 11:14, and ISO A1 ratios at 300 DPI
         </p>
+        <p className="text-xs text-blue-600 mt-2">
+          <strong>Upscaling:</strong> Uses Sharp Lanczos3 algorithm for reliable, high-quality results
+        </p>
       </div>
     </div>
   )

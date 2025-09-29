@@ -6,7 +6,7 @@ AI-powered image upscaling and print size generation for Etsy sellers. Upload an
 
 ## Features
 
-- **AI Upscaling**: Uses Real-ESRGAN on Replicate for superior upscaling results (optional)
+- **Sharp Upscaling**: Uses Sharp Lanczos3 algorithm for reliable, high-quality upscaling
 - **Smart Cropping**: Automatically detects faces and salient regions for optimal cropping
 - **Multiple Aspect Ratios**: Supports 2:3, 3:4, 4:5, 11:14, ISO A-series, and 5:7 ratios
 - **Print-Ready Output**: Generates 300 DPI JPEGs optimized for print production
@@ -107,10 +107,10 @@ The generated ZIP contains:
 ### Image Processing Pipeline
 
 1. **Load & Normalize**: EXIF orientation, sRGB conversion, alpha flattening
-2. **Upscale**: AI (Real-ESRGAN) or Sharp Lanczos to largest required size
+2. **Upscale**: Sharp Lanczos3 algorithm to largest required size
 3. **Smart Crop**: Face/salient region detection for each aspect ratio
-4. **Resize**: Generate all requested sizes
-5. **Export**: High-quality JPEG with proper metadata
+4. **Resize**: Generate all requested sizes at 300 DPI
+5. **Export**: High-quality JPEG with proper metadata and color profiles
 6. **Archive**: Streaming ZIP with organized folder structure
 
 ### Quality Settings

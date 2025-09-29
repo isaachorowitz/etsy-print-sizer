@@ -40,16 +40,8 @@ export async function upscaleImage(
     }
   }
 
-  // Try AI upscaling first if API key is available
-  if (process.env.REPLICATE_API_TOKEN) {
-    try {
-      return await aiUpscale(inputBuffer, targetWidth, targetHeight)
-    } catch (error) {
-      console.warn('AI upscaling failed, falling back to Sharp:', error)
-    }
-  }
-
-  // Fallback to Sharp Lanczos upscaling
+  // Force Sharp Lanczos upscaling only (AI disabled for reliability)
+  console.log('Using Sharp Lanczos upscaling (AI disabled)')
   return await sharpUpscale(inputBuffer, targetWidth, targetHeight)
 }
 
