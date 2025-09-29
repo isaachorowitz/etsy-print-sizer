@@ -1,0 +1,9 @@
+# This is a placeholder sRGB ICC profile
+# Replace this file with an actual sRGB ICC profile for proper color management
+# You can download sRGB ICC profiles from:
+# - https://www.color.org/srgbprofiles.xalter
+# - Adobe Color profiles
+# - Or generate one using color management tools
+
+# The application will work without this file, but color accuracy may vary
+# across different devices and browsers.

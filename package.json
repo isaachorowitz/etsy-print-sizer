@@ -1,0 +1,40 @@
+{
+  "name": "etsy-print-sizer",
+  "version": "1.0.0",
+  "description": "AI-powered image upscaling and print size generation for Etsy sellers",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-progress": "^1.0.3",
+    "lucide-react": "^0.294.0",
+    "sharp": "^0.33.1",
+    "smartcrop-sharp": "^2.0.8",
+    "archiver": "^6.0.1",
+    "replicate": "^0.29.4",
+    "formidable": "^3.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/archiver": "^6.0.2",
+    "@types/formidable": "^3.4.5",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4"
+  }
+}
